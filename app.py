@@ -8,48 +8,124 @@ from sklearn.preprocessing import StandardScaler
 # ================= PAGE CONFIG =================
 st.set_page_config(
     page_title="Customer Segmentation Dashboard",
-    page_icon="🛍️",
+    page_icon="🌙",
     layout="wide"
 )
 
-# ================= CUSTOM CSS =================
+# ================= DARK THEME CSS =================
 st.markdown("""
 <style>
-body {
-    background-color: #f6f7fb;
+
+/* App background */
+.stApp {
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: #f8fafc;
 }
+
+/* Title */
 .title {
-    font-size: 50px;
-    font-weight: 800;
-    background: linear-gradient(90deg,#ff4b4b,#ff914d);
+    font-size: 52px;
+    font-weight: 900;
+    background: linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6);
     -webkit-background-clip: text;
     color: transparent;
     text-align: center;
 }
+
+/* Subtitle */
 .subtitle {
     text-align: center;
-    font-size: 18px;
-    color: #6c757d;
+    font-size: 20px;
+    color: #cbd5f5;
+    margin-bottom: 25px;
 }
+
+/* KPI Cards */
 .card {
-    background-color: white;
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.08);
+    background: linear-gradient(145deg,#020617,#020617);
+    padding: 30px;
+    border-radius: 22px;
+    box-shadow: 0px 15px 35px rgba(56,189,248,0.15);
     text-align: center;
+    border: 1px solid #1e293b;
+    transition: 0.3s;
+    color: #f8fafc;
 }
+
+.card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0px 20px 45px rgba(168,139,250,0.3);
+}
+
+.card b {
+    color: #e5e7eb;
+    font-size: 18px;
+}
+
+.card h2 {
+    color: #ffffff;
+    font-size: 40px;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg,#020617,#020617);
+    border-right: 2px solid #1e293b;
+}
+
+/* Sidebar text */
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] p {
+    color: #f8fafc !important;
+    font-weight: 600;
+}
+
+/* Slider value */
+section[data-testid="stSidebar"] .stSlider p {
+    color: #e5e7eb !important;
+}
+
+/* Button */
+.stButton>button {
+    background: linear-gradient(90deg,#38bdf8,#a78bfa);
+    color: #020617;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 14px;
+    padding: 12px 28px;
+    border: none;
+    transition: 0.3s;
+}
+
+.stButton>button:hover {
+    transform: scale(1.06);
+    box-shadow: 0px 12px 25px rgba(56,189,248,0.5);
+}
+
+/* Section headers */
+h3 {
+    color: #f8fafc;
+    font-size: 26px;
+    font-weight: 800;
+}
+
+/* Footer */
 .footer {
     text-align: center;
-    color: gray;
-    font-size: 14px;
+    color: #94a3b8;
+    font-size: 15px;
+    margin-top: 10px;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
 # ================= HEADER =================
-st.markdown("<div class='title'>🛍️ Mall Customer Segmentation</div>", unsafe_allow_html=True)
-st.markdown("<div class='subtitle'>Creative KMeans Clustering | Data Science Dashboard</div>", unsafe_allow_html=True)
-st.write("")
+st.markdown("<div class='title'>🌙 Mall Customer Segmentation</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>Dark Theme | KMeans Clustering Dashboard</div>", unsafe_allow_html=True)
 
 # ================= LOAD DATA =================
 @st.cache_data
@@ -79,8 +155,6 @@ with c3:
 with c4:
     st.markdown("<div class='card'>🤖<br><b>Algorithm</b><h2>KMeans</h2></div>", unsafe_allow_html=True)
 
-st.write("")
-
 # ================= SIDEBAR =================
 st.sidebar.title("🎛️ Customer Input")
 
@@ -101,16 +175,19 @@ spending = st.sidebar.slider(
 # ================= VISUALIZATION =================
 st.subheader("📈 Customer Distribution")
 
+plt.style.use("dark_background")
 fig, ax = plt.subplots(figsize=(7,5))
 sns.scatterplot(
     data=data,
     x="Annual Income (k$)",
     y="Spending Score (1-100)",
     hue="Cluster",
-    palette="Set2",
+    palette="bright",
     ax=ax
 )
-ax.set_title("Customer Clusters")
+ax.set_title("Customer Clusters", color="white")
+ax.set_xlabel("Annual Income (k$)", color="white")
+ax.set_ylabel("Spending Score", color="white")
 st.pyplot(fig)
 
 # ================= PREDICTION =================
@@ -130,7 +207,7 @@ if st.button("✨ Predict Customer Type"):
     cluster_desc = {
         0: "🧠 Careful & balanced customers",
         1: "💰 High income, low spending customers",
-        2: "🔥 Premium customers (high income & spending)",
+        2: "🔥 Premium customers",
         3: "📉 Low income, low spending customers",
         4: "🎉 Low income, high spending customers"
     }
@@ -139,4 +216,4 @@ if st.button("✨ Predict Customer Type"):
 
 # ================= FOOTER =================
 st.divider()
-st.markdown("<div class='footer'>Made with ❤️ by <b>Vijay</b> | Data Science Project</div>", unsafe_allow_html=True)
+st.markdown("<div class='footer'>Made with ❤️ by <b>Vijay</b> | Dark Theme Data Science Project</div>", unsafe_allow_html=True)
